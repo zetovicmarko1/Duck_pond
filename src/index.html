@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+       .blur-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(3px);
+            display: none;
+            z-index: 1000; /* Ensure this is below the card but above everything else */
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            /* background-color: #f0f0f0; optional: for a background */
+            /* border-radius: 50%; optional: for rounded corners */
+            padding: 5px; /* optional: for some space around the X */
+        }
+        .duck{
+            position: absolute;
+            left: 50%;
+            right: 50%;
+            padding-top: 10px
+        }
+        .tab {
+            margin-left: 20px; 
+            padding:5px 
+        }
+        .paragraph {
+            padding:10px; 
+            padding-bottom:1px;
+        }
+        .heading {
+            padding:10px;
+        }
+        .card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 30%; /* Adjust the width as per your preference */
+            height: 55%;    
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            text-align: justify;
+            transform: translate(-50%, 100%);
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 10px;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            /* border: 1px solid #000; */
+            display: none; /* Initially hidden */
+            transition: transform 0.2s ease-in-out; /* Animation settings */
+            z-index: 1001; /* Higher z-index to ensure it appears on top */
+        }
+        .card.open {
+            transform: translate(-50%, -50%); /* Position to bring it back to the center */
+        }
+        .a {
+            color:white;
+        }
+        .a:visited {
+            color:white;
+        }
+        .a:active {
+            color:lightblue;
+        }
+        .a:hover {
+            color:lightblue;
+        }
+        
+       
+      </style>
+    <title>🦆 Marko Zetovic 🦆</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="blur-background" id="blur-background"></div>
+    <div class="card" id="info-card">
+        <div class="close-button" id="close-button">x</div>
+        <H1 class="heading">ABOUT ME</H1>
+        <hr/>
+        <body >
+            <p class="paragraph">
+                My name is Marko Zetovic and I am a third year part-time software engineering
+                student at the University of Technology Sydney (UTS). I have been programming since 2018
+                and I have developed a passion for web development, front-end engineering and creative coding. If you are wondering why ducks, they are my favourite animal...
+                so I had to incorporate them into the website design!
+                <!-- <br> -->
+                <br>
+                <br>
+                My language proficiencies include TypeScript, HTML, CSS, JavaScript, C, C++, Python, Java and I am familiar 
+                with various JavaScript frameworks and libraries such as React, ThreeJS, Vite, NextJS and Tailwind. I have previously
+                presented my involved projects to Microsoft, Engineering Without Borders and UTS Tech Festival.
+                <br>
+                <br>
+                <a class="a" href="./resumefinal.pdf" target="_blank" rel="noopener noreferrer">Click to learn more through my résumé!</a>
+            </p>
+            <div class="duck">🦆</div>
+        </body>
+      </div>
+    <canvas class="webgl"></canvas>
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
