@@ -13,11 +13,6 @@ import {OutputPass} from 'three/examples/jsm/postprocessing/OutputPass.js'
 import {ShaderPass} from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import {ClearPass} from 'three/examples/jsm/postprocessing/ClearPass.js'
 
-
-
-
-
-
 // import 
 
 import * as dat from 'lil-gui'
@@ -805,11 +800,6 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
-
-
-
-
-
 // window.addEventListener( 'pointermove', onPointerMove );
 
 /**
@@ -856,6 +846,7 @@ function onPointerMove(event) {
 
 let isCardOpen = false;
 
+
 function onClick(event) {
 
   pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -867,50 +858,50 @@ function onClick(event) {
   const intersectsFemale = raycaster.intersectObjects(duck2.children, true);
   const intersectsFemale2 = raycaster.intersectObjects(duck3.children, true);
 
-  const infoCard = document.querySelector('.card');
+  const aboutCard = document.querySelector('.card');
 
   if(intersectsMale.length > 0 || intersectsFemale.length > 0 || intersectsFemale2.length > 0) {
     const audio = new Audio('quack.mp3');
     audio.volume = 0.2
     audio.play();
-    document.getElementById('info-card').style.display = 'block';
+    document.getElementById('aboutme-card').style.display = 'block';
     document.getElementById('blur-background').style.display = 'block';
     document.body.style.cursor = 'default';
     isCardOpen = true;
 
-    infoCard.style.display = 'block'; // Make the card visible
+    aboutCard.style.display = 'block'; // Make the card visible
     setTimeout(() => {
-      infoCard.classList.add('open'); // Slide in with a slight delay to allow display style to apply
+      aboutCard.classList.add('open'); // Slide in with a slight delay to allow display style to apply
     }, 50);
 
   } 
   // Prevent event propagation when clicking on the card
-  document.getElementById('info-card').addEventListener('click', function(e) {
+  document.getElementById('aboutme-card').addEventListener('click', function(e) {
     e.stopPropagation();
 
   });
 
   // Hide card and remove blur when clicking outside the card
   document.getElementById('blur-background').addEventListener('click', function() {
-    document.getElementById('info-card').style.display = 'none';
+    document.getElementById('aboutme-card').style.display = 'none';
     document.getElementById('blur-background').style.display = 'none';
-    infoCard.classList.remove('open'); // Slide out
+    aboutCard.classList.remove('open'); // Slide out
     setTimeout(() => {
-      infoCard.style.display = 'none'; // Hide the card after the slide-out transition
+      aboutCard.style.display = 'none'; // Hide the card after the slide-out transition
     }, 500); // Delay matching the transition duratio
     isCardOpen = false;
   });
 
   document.getElementById('close-button').addEventListener('click', function() {
-    document.getElementById('info-card').style.display = 'none';
+    document.getElementById('aboutme-card').style.display = 'none';
     document.getElementById('blur-background').style.display = 'none';
     document.body.style.cursor = 'auto'; // or whatever cursor you want when the card is closed
     isCardOpen = false;
     event.stopPropagation(); // prevent the event from propagating to other click handlers
-    infoCard.classList.remove('open'); // Slide out
-    // console.log(infoCard.classList)
+    aboutCard.classList.remove('open'); // Slide out
+    // console.log(aboutCard.classList)
     setTimeout(() => {
-      infoCard.style.display = 'none'; // Hide the card after the slide-out transition
+      aboutCard.style.display = 'none'; // Hide the card after the slide-out transition
     }, 500); // Delay matching the transition duratio
   });
 
@@ -920,10 +911,7 @@ function onClick(event) {
 
 window.addEventListener('click', onClick);
 
-
 raycaster = new THREE.Raycaster();
-
-
 
 function raycastAndOutline() {
   raycaster.setFromCamera(pointer, camera);
@@ -934,6 +922,7 @@ function raycastAndOutline() {
   
   if (isCardOpen) {
     document.body.style.cursor = 'default';
+
     return; // Exit early if the card is open to prevent further cursor changes
   }
 
@@ -1020,6 +1009,83 @@ scene.add(allducks)
 allducks.position.x = 2.5
 
 const clock = new THREE.Clock()
+
+
+
+
+
+// function createCardDuck() {
+//   const scene = new THREE.Scene();
+//   const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  
+//   // camera.position.x = -10.67597486049261
+//   // camera.position.y = 15.55260554365897
+//   // camera.position.z = 36.30427707665219
+
+//   const card = document.querySelector('.card');
+//   const cardWidth = card.offsetWidth;
+//   console.log(cardWidth)
+
+
+//   const renderer = new THREE.WebGLRenderer();
+//   renderer.setSize(cardWidth*0.75, cardWidth * 0.5);
+//   card.appendChild(renderer.domElement);
+
+//   let duckContainer = document.createElement('div');
+//   duckContainer.classList.add('duck-container');
+
+//   duckContainer.appendChild(renderer.domElement);
+//   card.appendChild(duckContainer);
+
+
+//   // Load your duck model (assuming you have a loader and a valid model URL)
+
+
+//   const directionalLight = new THREE.DirectionalLight( 0xffffff, 2 );
+//   directionalLight.position.set( - 1, 1, 1 );
+//   scene.add( directionalLight );
+  
+
+//   const pekinloader = new OBJLoader();
+//   const pekinmtlloader = new MTLLoader();
+
+//   var pekin = new THREE.Group();
+ 
+//   pekinmtlloader.load('pekin.mtl', 
+//       (materials) => {
+//         materials.preload()
+//         pekinloader.setMaterials(materials)
+//         pekinloader.load('pekin.obj',
+//           (object) => {
+
+//             pekin.add(object)
+//             pekin.scale.x=0.5
+//             pekin.scale.y=0.5
+//             pekin.scale.z=0.5
+
+//             }
+//           )
+//         })
+
+//         scene.add(pekin)
+
+    
+//   scene.background = new THREE.Color("#333333")
+//   // Set up animation for the spinning duck
+//   function animate() {
+//     requestAnimationFrame(animate);
+//     const elapsedTime = clock.getElapsedTime()
+
+
+//     pekin.rotation.y += 0.01
+//     // pekin.position.y = Math.sin(elapsedTime *2)*0.05
+//     renderer.render(scene, camera);
+//   }
+//   animate();
+  
+//   camera.position.z = 5;
+// }
+
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()

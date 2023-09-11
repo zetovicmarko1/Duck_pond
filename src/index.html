@@ -15,49 +15,59 @@
             z-index: 1000; /* Ensure this is below the card but above everything else */
         }
         .close-button {
-            position: absolute;
+            position: fixed;
             top: 10px;
-            right: 10px;
+            right: 20px;
             cursor: pointer;
             font-size: 18px;
-            /* background-color: #f0f0f0; optional: for a background */
-            /* border-radius: 50%; optional: for rounded corners */
-            padding: 5px; /* optional: for some space around the X */
+            z-index: 2;
+        }
+        .close-button:hover{
+            color: rgb(163, 163, 163)
         }
         .duck{
             position: absolute;
             left: 50%;
             right: 50%;
-            padding-top: 10px
+            padding-top: 10px;
+            padding-bottom: 10px;
+
         }
         .tab {
             margin-left: 20px; 
             padding:5px 
         }
         .paragraph {
-            padding:10px; 
+            padding:20px; 
+            margin-top: -8px;
             padding-bottom:1px;
+            position: fixed;
+            z-index: 2;
         }
         .heading {
             padding:10px;
+            margin-left: 10px;
+            position: fixed;
+            z-index: 2;
         }
         .card {
             position: fixed;
             top: 50%;
             left: 50%;
             width: 30%; /* Adjust the width as per your preference */
-            height: 55%;    
+            height: 56%;    
+            overflow: hidden;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             text-align: justify;
-            transform: translate(-50%, 100%);
-            padding: 20px;
+            transform: translate(-50%, -50%);
+            /* padding: 20px; */
             background-color: #333333;
             border-radius: 10px;
             color: white;
             font-family: Arial, Helvetica, sans-serif;
             /* border: 1px solid #000; */
             display: none; /* Initially hidden */
-            transition: transform 0.2s ease-in-out; /* Animation settings */
+            transition: transform 0.2s ; 
             z-index: 1001; /* Higher z-index to ensure it appears on top */
         }
         .card.open {
@@ -66,32 +76,51 @@
         .a {
             color:white;
         }
+        .line {
+            margin-top: 52px;
+            margin-left: 10px;
+            margin-right: 10px;
+            /* padding-left: 10px ; */
+        }
         .a:visited {
             color:white;
         }
         .a:active {
-            color:lightblue;
+            color:rgb(163, 163, 163)
         }
         .a:hover {
-            color:lightblue;
+            color:rgb(163, 163, 163)
         }
-        
-       
+        .duck-container{
+            display: flex;
+            margin-top: -190px;
+            margin-left: -14px;
+
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+
+        }
       </style>
     <title>🦆 Marko Zetovic 🦆</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <div class="blur-background" id="blur-background"></div>
-    <div class="card" id="info-card">
+    <div class="card" id="aboutme-card">
         <div class="close-button" id="close-button">x</div>
         <H1 class="heading">ABOUT ME</H1>
-        <hr/>
+        <hr class="line"/>
+        <!-- <div class="duck">🦆</div> -->
+        
         <body >
             <p class="paragraph">
                 My name is Marko Zetovic and I am a third year part-time software engineering
                 student at the University of Technology Sydney (UTS). I have been programming since 2018
-                and I have developed a passion for web development, front-end engineering and creative coding. If you are wondering why ducks, they are my favourite animal...
+                and I have found a passion for web development, front-end engineering and creative coding. If you are wondering why ducks, they are my favourite animal...
                 so I had to incorporate them into the website design!
                 <!-- <br> -->
                 <br>
@@ -103,7 +132,6 @@
                 <br>
                 <a class="a" href="./resumefinal.pdf" target="_blank" rel="noopener noreferrer">Click to learn more through my résumé!</a>
             </p>
-            <div class="duck">🦆</div>
         </body>
       </div>
     <canvas class="webgl"></canvas>
