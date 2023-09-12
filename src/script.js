@@ -795,6 +795,9 @@ window.addEventListener('resize', () =>
   else if(window.innerWidth <= 425) { // large Mobile
     newFov = 120;
   }
+  else if(window.innerWidth <= 606) { // large Mobile
+    newFov = 120;
+  }
   else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
     newFov = 100;
   }
@@ -830,6 +833,9 @@ if(window.innerWidth <= 320) { // Small mobile devices
 } else if(window.innerWidth <= 415) { // Med Mobile
   fov = 130;
 } else if(window.innerWidth <= 425) { // large Mobile
+  fov = 120;
+}
+else if(window.innerWidth <= 606) { // large Mobile
   fov = 120;
 }
 else if(window.innerWidth <= 768) { // Tablets and larger mobile devices

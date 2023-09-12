@@ -53,6 +53,10 @@
             z-index: 2;
             
         }
+        #contact{
+            text-align: left;
+
+        }
         .heading {
             padding:10px;
             margin-left: 10px;
@@ -95,11 +99,19 @@
                 width: 90%;
                 height: 80%;
             }
+            #contact-card {
+                width: 96%; /* adjust as per your preference */
+                height: 30%; /* adjust as per your preference */
+            }
         }
         @media (max-width: 375px) and (min-width: 321px) {
             .card {
                 width: 90%;
                 height: 66%;
+            }
+            #contact-card {
+                width: 90%; /* adjust as per your preference */
+                height: 30%; /* adjust as per your preference */
             }
         }
         @media (max-width: 425px) and (min-width: 376px) {
@@ -107,11 +119,29 @@
                 width: 90%;
                 height: 60%;
             }
+            #contact-card {
+                width: 90%; /* adjust as per your preference */
+                height: 30%; /* adjust as per your preference */
+            }
         }
-        @media (max-width: 768px) and (min-width: 426px) {
+        @media (max-width: 606px) and (min-width: 426px) {
+            .card {
+                width: 90%;
+                height: 60%;    
+            }
+            #contact-card {
+                width: 90%; /* adjust as per your preference */
+                height: 30%; /* adjust as per your preference */
+            }
+        }
+        @media (max-width: 768px) and (min-width: 607px) {
             .card {
                 width: 70%;
                 height: 48%;    
+            }
+            #contact-card {
+                width: 70%; /* adjust as per your preference */
+                height: 30%; /* adjust as per your preference */
             }
         }
         @media (max-width: 1024px) and (min-width: 769px) {
@@ -223,7 +253,7 @@
     <H1 class="heading">CONTACT ME 📲</H1>
     <hr class="line"/>
     <body >
-        <p class="paragraph">
+        <p class="paragraph" id="contact">
             Keen to get in touch? 🔻
             <br>
             <br>
