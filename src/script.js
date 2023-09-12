@@ -16,7 +16,7 @@ import {ClearPass} from 'three/examples/jsm/postprocessing/ClearPass.js'
 // import 
 
 import * as dat from 'lil-gui'
-const gui = new dat.GUI()
+// const gui = new dat.GUI()
 
 
 THREE.ColorManagement.enabled = false
@@ -784,6 +784,20 @@ const sizes = {
 
 window.addEventListener('resize', () =>
 {
+  let newFov;
+  if(window.innerWidth <= 320) { // Small mobile devices
+    newFov = 140;
+  } else if(window.innerWidth <= 375) { // Med Mobile
+    newFov = 130;
+  } else if(window.innerWidth <= 425) { // large Mobile
+    newFov = 120;
+  }
+  else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
+    newFov = 100;
+  }
+  else { // Desktop
+    newFov = 75;
+  }
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -792,6 +806,7 @@ window.addEventListener('resize', () =>
 
 
     // Update camera
+    camera.fov = newFov
     camera.aspect = sizes.width / sizes.height
     camera.updateProjectionMatrix()
 
@@ -805,8 +820,25 @@ window.addEventListener('resize', () =>
 /**
  * Camera
  */
+let fov;
+if(window.innerWidth <= 320) { // Small mobile devices
+  fov = 140;
+} else if(window.innerWidth <= 375) { // Med Mobile
+  fov = 130;
 
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 140)
+} else if(window.innerWidth <= 425) { // large Mobile
+  fov = 120;
+}
+else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
+  fov = 100;
+}
+else { // Desktop
+  fov = 75;
+}
+
+
+//small: 140, laptop:75, med:130, large:120, tablet: 100
+const camera = new THREE.PerspectiveCamera(fov, sizes.width / sizes.height, 0.1, 140)
 camera.position.x = -10.67597486049261
 camera.position.y = 15.55260554365897
 camera.position.z = 36.30427707665219
@@ -846,8 +878,11 @@ function onPointerMove(event) {
 
 let isCardOpen = false;
 
-
 function onClick(event) {
+
+  if (isCardOpen && !event.target.classList.contains('close-button')) {
+    return;
+  }
 
   pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -858,56 +893,68 @@ function onClick(event) {
   const intersectsFemale = raycaster.intersectObjects(duck2.children, true);
   const intersectsFemale2 = raycaster.intersectObjects(duck3.children, true);
 
-  const aboutCard = document.querySelector('.card');
+  const card = document.querySelector('.card');
 
-  if(intersectsMale.length > 0 || intersectsFemale.length > 0 || intersectsFemale2.length > 0) {
+  const makeQuack = () => {
     const audio = new Audio('quack.mp3');
     audio.volume = 0.2
     audio.play();
+  }
+
+  if(intersectsMale.length > 0 || intersectsFemale.length > 0 ) {
+    makeQuack()
     document.getElementById('aboutme-card').style.display = 'block';
     document.getElementById('blur-background').style.display = 'block';
     document.body.style.cursor = 'default';
     isCardOpen = true;
-
-    aboutCard.style.display = 'block'; // Make the card visible
-    setTimeout(() => {
-      aboutCard.classList.add('open'); // Slide in with a slight delay to allow display style to apply
-    }, 50);
-
+    card.style.display = 'block'; // Make the card visible
   } 
+
+  if (intersectsFemale2.length > 0) {
+    makeQuack()
+    document.getElementById('contact-card').style.display = 'block';
+    document.getElementById('blur-background').style.display = 'block';
+    document.body.style.cursor = 'default';
+    isCardOpen = true;
+    card.style.display = 'block'; // Make the card visible
+  }
   // Prevent event propagation when clicking on the card
-  document.getElementById('aboutme-card').addEventListener('click', function(e) {
-    e.stopPropagation();
-
-  });
-
-  // Hide card and remove blur when clicking outside the card
-  document.getElementById('blur-background').addEventListener('click', function() {
-    document.getElementById('aboutme-card').style.display = 'none';
-    document.getElementById('blur-background').style.display = 'none';
-    aboutCard.classList.remove('open'); // Slide out
-    setTimeout(() => {
-      aboutCard.style.display = 'none'; // Hide the card after the slide-out transition
-    }, 500); // Delay matching the transition duratio
-    isCardOpen = false;
-  });
-
-  document.getElementById('close-button').addEventListener('click', function() {
-    document.getElementById('aboutme-card').style.display = 'none';
-    document.getElementById('blur-background').style.display = 'none';
-    document.body.style.cursor = 'auto'; // or whatever cursor you want when the card is closed
-    isCardOpen = false;
-    event.stopPropagation(); // prevent the event from propagating to other click handlers
-    aboutCard.classList.remove('open'); // Slide out
-    // console.log(aboutCard.classList)
-    setTimeout(() => {
-      aboutCard.style.display = 'none'; // Hide the card after the slide-out transition
-    }, 500); // Delay matching the transition duratio
-  });
-
-  
-
 }
+
+document.getElementById('aboutme-card').addEventListener('click', function(e) {
+  e.stopPropagation();
+
+});
+
+document.getElementById('contact-card').addEventListener('click', function(e) {
+  e.stopPropagation();
+});
+
+// Hide card and remove blur when clicking outside the card
+document.getElementById('blur-background').addEventListener('click', function() {
+  document.getElementById('aboutme-card').style.display = 'none';
+  document.getElementById('contact-card').style.display = 'none';
+  document.getElementById('blur-background').style.display = 'none';
+  isCardOpen = false;
+});
+
+document.getElementById('close-button-about').addEventListener('click', function(event) {
+  event.stopPropagation(); // prevent the event from propagating to other click handlers
+  document.getElementById('aboutme-card').style.display = 'none';
+  document.getElementById('contact-card').style.display = 'none';
+  document.getElementById('blur-background').style.display = 'none';
+  document.body.style.cursor = 'auto'; 
+  isCardOpen = false;
+});
+
+document.getElementById('close-button-contact').addEventListener('click', function(event) {
+  event.stopPropagation(); // prevent the event from propagating to other click handlers
+  document.getElementById('contact-card').style.display = 'none';
+  document.getElementById('aboutme-card').style.display = 'none';
+  document.getElementById('blur-background').style.display = 'none';
+  document.body.style.cursor = 'auto'; 
+  isCardOpen = false;
+});
 
 window.addEventListener('click', onClick);
 
