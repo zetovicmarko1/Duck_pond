@@ -18,7 +18,6 @@ import {ClearPass} from 'three/examples/jsm/postprocessing/ClearPass.js'
 import * as dat from 'lil-gui'
 // const gui = new dat.GUI()
 
-
 THREE.ColorManagement.enabled = false
 
 const textureLoader = new THREE.TextureLoader()
@@ -1033,7 +1032,7 @@ function raycastAndOutline() {
 }
 
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1;
+renderer.toneMappingExposure = 1.3;
 
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
