@@ -851,9 +851,6 @@ if(window.innerWidth <= 320) { // Small mobile devices
 if(window.innerWidth <= 375) { // Small mobile devices
   camera.position.z = 32.30427707665219
 } 
-
-
-
 // gui.add(camera.position, "z")
 
 // Controls
@@ -1182,7 +1179,6 @@ const tick = () =>
 
     hoverduck3.position.y = Math.cos(elapsedTime *4)*0.05 + 1.3
     contact.position.y = Math.cos(elapsedTime *4)*0.05 + 4.2
-
 
     wheet.position.x = Math.sin(elapsedTime *2)*0.05 -6
     wheet2.position.x = Math.sin(elapsedTime *2)*0.05 +8
