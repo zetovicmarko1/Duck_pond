@@ -789,7 +789,10 @@ window.addEventListener('resize', () =>
     newFov = 140;
   } else if(window.innerWidth <= 375) { // Med Mobile
     newFov = 130;
-  } else if(window.innerWidth <= 425) { // large Mobile
+  } else if(window.innerWidth <= 415) { // large Mobile
+    newFov = 130;
+  }
+  else if(window.innerWidth <= 425) { // large Mobile
     newFov = 120;
   }
   else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
@@ -801,9 +804,6 @@ window.addEventListener('resize', () =>
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
-
-    
-
 
     // Update camera
     camera.fov = newFov
@@ -821,11 +821,14 @@ window.addEventListener('resize', () =>
  * Camera
  */
 let fov;
+
 if(window.innerWidth <= 320) { // Small mobile devices
   fov = 140;
+
 } else if(window.innerWidth <= 375) { // Med Mobile
   fov = 130;
-
+} else if(window.innerWidth <= 415) { // Med Mobile
+  fov = 130;
 } else if(window.innerWidth <= 425) { // large Mobile
   fov = 120;
 }
@@ -836,7 +839,6 @@ else { // Desktop
   fov = 75;
 }
 
-
 //small: 140, laptop:75, med:130, large:120, tablet: 100
 const camera = new THREE.PerspectiveCamera(fov, sizes.width / sizes.height, 0.1, 140)
 camera.position.x = -10.67597486049261
@@ -844,7 +846,17 @@ camera.position.y = 15.55260554365897
 camera.position.z = 36.30427707665219
 scene.add(camera)
 
+if(window.innerWidth <= 320) { // Small mobile devices
+  camera.position.z = 32.30427707665219
+} 
 
+if(window.innerWidth <= 375) { // Small mobile devices
+  camera.position.z = 32.30427707665219
+} 
+
+
+
+// gui.add(camera.position, "z")
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
@@ -863,7 +875,6 @@ controls.enableDamping = true
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 })
-
 
 renderer.domElement.style.touchAction = 'none';
 renderer.domElement.addEventListener('pointermove', onPointerMove);
@@ -893,22 +904,27 @@ function onClick(event) {
   const intersectsFemale = raycaster.intersectObjects(duck2.children, true);
   const intersectsFemale2 = raycaster.intersectObjects(duck3.children, true);
 
-  const card = document.querySelector('.card');
-
   const makeQuack = () => {
     const audio = new Audio('quack.mp3');
     audio.volume = 0.2
     audio.play();
   }
 
-  if(intersectsMale.length > 0 || intersectsFemale.length > 0 ) {
+  if(intersectsMale.length > 0) {
     makeQuack()
     document.getElementById('aboutme-card').style.display = 'block';
     document.getElementById('blur-background').style.display = 'block';
     document.body.style.cursor = 'default';
     isCardOpen = true;
-    card.style.display = 'block'; // Make the card visible
   } 
+
+  if (intersectsFemale.length > 0) {
+    makeQuack()
+    document.getElementById('portfolio-card').style.display = 'block';
+    document.getElementById('blur-background').style.display = 'block';
+    document.body.style.cursor = 'default';
+    isCardOpen = true;
+  }
 
   if (intersectsFemale2.length > 0) {
     makeQuack()
@@ -916,7 +932,6 @@ function onClick(event) {
     document.getElementById('blur-background').style.display = 'block';
     document.body.style.cursor = 'default';
     isCardOpen = true;
-    card.style.display = 'block'; // Make the card visible
   }
   // Prevent event propagation when clicking on the card
 }
@@ -930,10 +945,15 @@ document.getElementById('contact-card').addEventListener('click', function(e) {
   e.stopPropagation();
 });
 
+document.getElementById('portfolio-card').addEventListener('click', function(e) {
+  e.stopPropagation();
+});
+
 // Hide card and remove blur when clicking outside the card
 document.getElementById('blur-background').addEventListener('click', function() {
   document.getElementById('aboutme-card').style.display = 'none';
   document.getElementById('contact-card').style.display = 'none';
+  document.getElementById('portfolio-card').style.display = 'none';
   document.getElementById('blur-background').style.display = 'none';
   isCardOpen = false;
 });
@@ -941,6 +961,7 @@ document.getElementById('blur-background').addEventListener('click', function() 
 document.getElementById('close-button-about').addEventListener('click', function(event) {
   event.stopPropagation(); // prevent the event from propagating to other click handlers
   document.getElementById('aboutme-card').style.display = 'none';
+  document.getElementById('portfolio-card').style.display = 'none';
   document.getElementById('contact-card').style.display = 'none';
   document.getElementById('blur-background').style.display = 'none';
   document.body.style.cursor = 'auto'; 
@@ -951,10 +972,22 @@ document.getElementById('close-button-contact').addEventListener('click', functi
   event.stopPropagation(); // prevent the event from propagating to other click handlers
   document.getElementById('contact-card').style.display = 'none';
   document.getElementById('aboutme-card').style.display = 'none';
+  document.getElementById('portfolio-card').style.display = 'none';
   document.getElementById('blur-background').style.display = 'none';
   document.body.style.cursor = 'auto'; 
   isCardOpen = false;
 });
+
+document.getElementById('close-button-portfolio').addEventListener('click', function(event) {
+  event.stopPropagation(); // prevent the event from propagating to other click handlers
+  document.getElementById('contact-card').style.display = 'none';
+  document.getElementById('aboutme-card').style.display = 'none';
+  document.getElementById('portfolio-card').style.display = 'none';
+  document.getElementById('blur-background').style.display = 'none';
+  document.body.style.cursor = 'auto'; 
+  isCardOpen = false;
+});
+
 
 window.addEventListener('click', onClick);
 
