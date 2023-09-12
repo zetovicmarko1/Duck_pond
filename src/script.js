@@ -791,17 +791,13 @@ window.addEventListener('resize', () =>
     newFov = 130;
   } else if(window.innerWidth <= 415) { // large Mobile
     newFov = 130;
-  }
-  else if(window.innerWidth <= 425) { // large Mobile
+  } else if(window.innerWidth <= 425) { // large Mobile
     newFov = 120;
-  }
-  else if(window.innerWidth <= 606) { // large Mobile
+  } else if(window.innerWidth <= 606) { // large Mobile
     newFov = 120;
-  }
-  else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
+  } else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
     newFov = 100;
-  }
-  else { // Desktop
+  } else { // Desktop
     newFov = 75;
   }
     // Update sizes
@@ -827,21 +823,17 @@ let fov;
 
 if(window.innerWidth <= 320) { // Small mobile devices
   fov = 140;
-
 } else if(window.innerWidth <= 375) { // Med Mobile
   fov = 130;
 } else if(window.innerWidth <= 415) { // Med Mobile
   fov = 130;
 } else if(window.innerWidth <= 425) { // large Mobile
   fov = 120;
-}
-else if(window.innerWidth <= 606) { // large Mobile
+} else if(window.innerWidth <= 606) { // large Mobile
   fov = 120;
-}
-else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
+}else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
   fov = 100;
-}
-else { // Desktop
+}else { // Desktop
   fov = 75;
 }
 
@@ -868,7 +860,10 @@ if(window.innerWidth <= 375) { // Small mobile devices
 const controls = new OrbitControls(camera, canvas)
 controls.enablePan = false
 
-controls.enableZoom =false
+// controls.enableZoom =false
+controls.maxDistance = 50
+controls.minDistance = 20
+
 controls.maxPolarAngle = Math.PI/2.5
 controls.minPolarAngle = Math.PI/3
 
