@@ -114,11 +114,6 @@ fontLoader.load(
       text.rotation.x = -Math.PI/2
       text.rotation.z = -Math.PI/8
 
-
-
-
-
-
   }
 )
 
@@ -185,7 +180,9 @@ fontLoader.load(
       // )
       const textMaterial = new THREE.MeshBasicMaterial({color:"black"})
       const text = new THREE.Mesh(textGeometry, textMaterial)
-      scene.add(text)
+      if (!/Android|iPhone/i.test(navigator.userAgent)) {
+        scene.add(text)
+      }
       text.position.x = -14
       text.position.z = 22
 
@@ -195,6 +192,46 @@ fontLoader.load(
       text.rotation.z = -Math.PI/8
   }
 )
+
+fontLoader.load(
+  '/fonts/helvetiker_regular.typeface.json',
+  (font) => {
+      const textGeometry = new TextGeometry(
+          'TAP THE DUCKS TO LEARN ABOUT ME :)',
+          {
+              font: font,
+              size: 0.5,
+              height: 1,
+              curveSegments: 5,
+              bevelEnabled: true,
+              bevelThickness: 0.03,
+              bevelSize: 0.02,
+              bevelOffset: 0,
+              bevelSegments: 4
+          }
+      )
+      // textGeometry.center()
+      // textGeometry.computeBoundingBox()
+      // textGeometry.translate(
+      //     - (textGeometry.boundingBox.max.x-0.02) * 0.5,
+      //     - (textGeometry.boundingBox.max.y-0.02) * 0.5,
+      //     - (textGeometry.boundingBox.max.z-0.03) * 0.5
+      // )
+      const textMaterial = new THREE.MeshBasicMaterial({color:"black"})
+      const text = new THREE.Mesh(textGeometry, textMaterial)
+      if (/Android|iPhone/i.test(navigator.userAgent)) {
+        scene.add(text)
+      }
+      text.position.x = -14
+      text.position.z = 22
+
+      text.position.y = 0.9
+
+      text.rotation.x = -Math.PI/2
+      text.rotation.z = -Math.PI/8
+  }
+)
+
 const aboutme = new THREE.Group()
 fontLoader.load(
   '/fonts/helvetiker_regular.typeface.json',
@@ -795,7 +832,9 @@ window.addEventListener('resize', () =>
   } else if(window.innerWidth <= 606) { // large Mobile
     newFov = 120;
   } else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
-    newFov = 100;
+    newFov = 110;
+  } else if(window.innerWidth <= 912) { // Tablets and larger mobile devices
+    newFov = 110;
   } else { // Desktop
     newFov = 75;
   }
@@ -831,8 +870,10 @@ if(window.innerWidth <= 320) { // Small mobile devices
 } else if(window.innerWidth <= 606) { // large Mobile
   fov = 120;
 }else if(window.innerWidth <= 768) { // Tablets and larger mobile devices
-  fov = 100;
-}else { // Desktop
+  fov = 110;
+} else if(window.innerWidth <= 912) { // Tablets and larger mobile devices
+  fov = 110;
+} else { // Desktop
   fov = 75;
 }
 
