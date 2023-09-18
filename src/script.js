@@ -16,7 +16,7 @@ import {ClearPass} from 'three/examples/jsm/postprocessing/ClearPass.js'
 // import 
 
 import * as dat from 'lil-gui'
-const gui = new dat.GUI()
+// const gui = new dat.GUI()
 
 THREE.ColorManagement.enabled = false
 
@@ -825,7 +825,7 @@ const particlesMaterial = new THREE.ShaderMaterial({
 
 particlesMaterial.alphaMap = particleTexture
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
-gui.add(particles.position, "y")
+// gui.add(particles.position, "y")
 scene.add(particles)
 
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 2 );
