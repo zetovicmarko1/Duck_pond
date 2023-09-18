@@ -16,7 +16,7 @@ import {ClearPass} from 'three/examples/jsm/postprocessing/ClearPass.js'
 // import 
 
 import * as dat from 'lil-gui'
-// const gui = new dat.GUI()
+const gui = new dat.GUI()
 
 THREE.ColorManagement.enabled = false
 
@@ -356,38 +356,7 @@ portfolio.rotation.y = 0.4
 // aboutme.rotation.x = -Math.PI/4
 scene.add(portfolio)
 
-// gui.add(portfolio.rotation, "y").step(0.1)
-// // function createLightParticles() {
-//   const lightParticleGeometry = new THREE.SphereGeometry(0.15);
-//   const lightParticleMaterial = new THREE.MeshStandardMaterial({color:0xffffff})
-//   const lightParticle = new THREE.Mesh(lightParticleGeometry,lightParticleMaterial);
 
-//   lightParticle.scale.x = 0.1
-//   lightParticle.scale.y = 0.1
-//   lightParticle.scale.z = 0.1
-
-//   const [x,y,z]=Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(40));
-//   lightParticle.position.set(x,y,z);
-//   lightParticleGroup.add(lightParticle);
-//   lightParticlesArray.push(lightParticle);
-//   scene.add(lightParticleGroup)
-// // }
-// // createLightParticles()
-
-// function animateLightParticles(){
-//   lightParticlesArray.forEach((lightParticle) => {
-//     const lightSpeed = 0.2;
-//     lightParticle.position.x += (Math.random() - 0.2) * lightSpeed;
-//     lightParticle.position.y += (Math.random() - 0.2) * lightSpeed;
-//     lightParticle.position.z += (Math.random() - 0.2) * lightSpeed;
-
-//     lightParticle.position.x -= (Math.random() - 0.2) * lightSpeed;
-//     lightParticle.position.y -= (Math.random() - 0.2) * lightSpeed;
-//     lightParticle.position.z -= (Math.random() - 0.2) * lightSpeed;
-//   })
-// }
-
-// animateLightParticles()
 
 // const listener = new THREE.AudioListener();
 // const audioLoader = new THREE.AudioLoader();
@@ -784,8 +753,6 @@ rock6.scale.z = 5
 scene.add(rock6)
 scene.background = bg
 
-
-
 const waterGeometry = new THREE.PlaneGeometry( 40, 49 );
 
 				water = new Water( waterGeometry, {
@@ -804,6 +771,62 @@ const waterGeometry = new THREE.PlaneGeometry( 40, 49 );
  * Base
  */
 // Debug
+
+const particleTexture = textureLoader.load('/textures/1.png')
+
+const particlesGeometry = new THREE.BufferGeometry()
+const count = 5000
+
+const positions = new Float32Array(count * 3)
+const colors = new Float32Array(count * 3)
+
+
+for (let i = 0; i < count * 3; i++) {
+    positions[i] = (Math.random() - 0.5) * 100
+    colors[i] = "white"
+}
+
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+
+const particlesMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+      pointTexture: { value: new THREE.TextureLoader().load('/textures/1.png') },
+      size: { value: 0.15 },  // Adjust the value as necessary
+      color: { value: new THREE.Color('white') }
+  },
+  vertexShader: `
+    varying vec3 vColor;
+    uniform float size;
+
+    void main() {
+        vColor = color;
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        gl_PointSize = size * (300.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
+    }
+  `,
+  fragmentShader: `
+    uniform sampler2D pointTexture;
+    varying vec3 vColor;
+
+    void main() {
+        gl_FragColor = vec4(vColor, 1.0);
+        gl_FragColor = gl_FragColor * texture2D(pointTexture, gl_PointCoord);
+    }
+  `,
+  blending: THREE.AdditiveBlending,
+  depthTest: false,
+  transparent: true,
+  vertexColors: true
+});
+
+
+
+particlesMaterial.alphaMap = particleTexture
+const particles = new THREE.Points(particlesGeometry, particlesMaterial)
+gui.add(particles.position, "y")
+scene.add(particles)
 
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 2 );
 directionalLight.position.set( - 1, 1, 1 );
@@ -1073,6 +1096,8 @@ function raycastAndOutline() {
 }
 
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
+// renderer.outputColorSpace = THREE.LinearSRGBColorSpace
+
 renderer.toneMappingExposure = 1.3;
 
 renderer.setSize(sizes.width, sizes.height);
@@ -1146,6 +1171,9 @@ const tick = () =>
 
     wheet.position.x = Math.sin(elapsedTime *2)*0.05 -6
     wheet2.position.x = Math.sin(elapsedTime *2)*0.05 +8
+
+    particles.rotation.x -= 0.002
+    particlesGeometry.attributes.position.needsUpdate = true
 
     renderer.render(scene, camera)
     raycastAndOutline();
