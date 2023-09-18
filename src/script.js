@@ -775,7 +775,7 @@ const waterGeometry = new THREE.PlaneGeometry( 40, 49 );
 const particleTexture = textureLoader.load('/textures/1.png')
 
 const particlesGeometry = new THREE.BufferGeometry()
-const count = 5000
+const count = 1000
 
 const positions = new Float32Array(count * 3)
 const colors = new Float32Array(count * 3)
