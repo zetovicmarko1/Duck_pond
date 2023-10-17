@@ -171,13 +171,6 @@ fontLoader.load(
               bevelSegments: 4
           }
       )
-      // textGeometry.center()
-      // textGeometry.computeBoundingBox()
-      // textGeometry.translate(
-      //     - (textGeometry.boundingBox.max.x-0.02) * 0.5,
-      //     - (textGeometry.boundingBox.max.y-0.02) * 0.5,
-      //     - (textGeometry.boundingBox.max.z-0.03) * 0.5
-      // )
       const textMaterial = new THREE.MeshBasicMaterial({color:"black"})
       const text = new THREE.Mesh(textGeometry, textMaterial)
       if (!/Android|iPhone/i.test(navigator.userAgent)) {
@@ -1074,9 +1067,13 @@ function raycastAndOutline() {
   aboutme.visible = false
   portfolio.visible = false
   contact.visible = false
+  duck2.visible = true
+  duck1.visible = true 
+  duck3.visible = true
 
   if (intersectsMale.length > 0) {
   hoverduck1.visible = true
+  duck1.visible = false
   aboutme.visible = true
   document.body.style.cursor = 'pointer';
   }
@@ -1084,11 +1081,13 @@ function raycastAndOutline() {
   if (intersectsFemale.length > 0) {
   portfolio.visible = true
   hoverduck2.visible = true
+  duck2.visible = false
   document.body.style.cursor = 'pointer';
   }
 
   if (intersectsFemale2.length > 0) {
   hoverduck3.visible = true
+  duck3.visible = false
   contact.visible = true
   document.body.style.cursor = 'pointer';
   }
